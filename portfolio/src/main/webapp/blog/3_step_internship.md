@@ -1,3 +1,3 @@
 # STEP Internship
 
-Thoughts about my step internship.
+Thoughts about my step internship. This blog page will get eventally completed...

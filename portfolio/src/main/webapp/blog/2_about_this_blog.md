@@ -1,1 +1,9 @@
 # How I built this blog
+
+Since this blog is hosted statically, everything needed to show blog content must be done in the browser. There are three main components to this:
+
+1. We need to show all blog articles. In order to do this, we need to know the titles and metadata of each blog post. We could grab every blog and retrieve the title, however that is very inefficient. So instead, we create a JSON file that stores all of this information and load up that. Every time a blog post is created, this JSON file is updated. When the blog page is opened with no blog article parameter, then this JSON file is retrieved and all blog articles are shown as a list.
+2. The blog also needs to be able to show posts. Since writing blog posts in pure HTML is tedious as well as time consuming, instead I use the [Marked](https://github.com/markedjs/marked) markdown rendering engine to take my markdown files and render them in the browser. The gzipped size of the rendering engine is only 30kB, making it a fairly lightweight solution. This allows me to simply grab the markdown file for any article and display it directly to the user.
+3. Putting things together, there needs to be a way to go to a blog post without creating a static page for every blog post. The solution I came up with was through making a single blog post page and abusing the search parameters in the URL to store the relevant blog post. Then once the page is loaded, Javascript is called that retrieves the blog page and loads it from the server. This also solves the problem of navigating between blog pages since navigating to the same blog page with different search parameters forces a page reload.
+
+Combining these tricks results in a blogging engine that requires less than 40kB to load for most blog pages. 
