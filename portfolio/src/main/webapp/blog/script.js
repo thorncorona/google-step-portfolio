@@ -5,9 +5,10 @@ function main() {
   particlesJS.load('particles-js', '/assets/particles.json', function() {
     console.log('callback - particles.js config loaded');
   });
-  if (window.location.hash != null && window.location.hash.length > 0) {
-    console.log("detected blog post, rendering: " + window.location.hash);
-    showBlogPost(window.location.hash.substring(1));
+  let file = window.location.search;
+  if (file != null && file.length > 0) {
+    console.log("detected blog post, rendering: " + file);
+    showBlogPost(file.substring(1) + ".md");
   } else {
     console.log("no blog post, showing blog posts");
     showBlogPosts();
@@ -20,7 +21,6 @@ function showBlogPosts() {
 
 function renderBlogLinks(data) {
   console.log("rendering blog links");
-  console.log(data);
 
   let postdata = data.postdata;
 
@@ -29,8 +29,9 @@ function renderBlogLinks(data) {
   });
 
   let blogLinks = postdata.map(function(post) {
-    return `<a href="blog?#${post.file}"><li>${post.title}</li></a>`;
-  });
+    let fnNoExt = post.file.substring(0, post.file.length - 3);
+    return `<li><a href="/blog/?${fnNoExt}">${post.title}</a></li>`;
+  }).join("\n");
 
   let blogPosts = `
     <ol>
@@ -47,6 +48,6 @@ function showBlogPost(file) {
 
 function renderBlogPost(md) {
   $("#fold").empty();
-  $("#fold").append("<a href='/blog'><-- Back</a>");
+  $("#fold").append("<a href='/blog/'><-- Back</a>");
   $("#fold").append(marked(md));
 }

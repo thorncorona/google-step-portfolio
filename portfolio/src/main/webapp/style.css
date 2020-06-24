@@ -7,8 +7,19 @@ body {
     color: white;
 }
 
+a {
+    color: white;
+    border-bottom: 1px dotted hsla(0, 0%, 100%, .35);
+}
+
+a:hover {
+    color: white;
+    border: none;
+    text-decoration: none;
+}
+
 .me-centerfold {
-    padding-bottom: 10em;
+    padding-bottom: 5em;
 }
 .me-photo {
     width: 20em;
@@ -58,31 +69,13 @@ body {
     text-align: justify;
 }
 
-.me-nav a {
-    color: white;
-    border-bottom: 1px dotted hsla(0, 0%, 100%, .35);
-}
-
-.me-nav a:hover {
-    color: white;
-}
-
-#fold a {
-    color: white;
-    border-bottom: 1px dotted hsla(0, 0%, 100%, .35);
-}
-
-#fold a:hover {
-    color: white;
-}
-
 #particles-js {
     z-index: -999;
     overflow: hidden;
     position: absolute;
     width: 100%;
     height: 100%;
-    background-color: #b61924;
+    background-color: #831659;
     background-image: url("");
     background-repeat: no-repeat;
     background-size: cover;

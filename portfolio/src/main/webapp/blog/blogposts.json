@@ -4,6 +4,21 @@
       "order": 1,
       "title": "Hello world",
       "file": "0_hello_world.md"
+    },
+    {
+        "order": 2,
+        "title": "About me",
+        "file": "1_about_me.md"
+    },
+    {
+        "order": 3,
+        "title": "How I built this blog",
+        "file": "2_about_this_blog.md"
+    },
+    {
+        "order": 4,
+        "title": "A start to an interesting internship",
+        "file": "3_step_internship.md"
     }
   ]
 }
