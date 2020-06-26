@@ -2,25 +2,6 @@
   main();
 })();
 
-function fetch(url, callback) {
-  let httpRequest = new XMLHttpRequest();
-  httpRequest.onreadystatechange = function() {
-    if (httpRequest.readyState === 4) {
-      if (httpRequest.status === 200) {
-        if (callback) callback(httpRequest.responseText);
-      }
-    }
-  };
-  httpRequest.open('GET', url);
-  httpRequest.send();
-}
-
-function fetchJSON(url, callback) {
-  fetch(url, function(data) {
-    if (callback) callback(JSON.parse(data));
-  });
-}
-
 function main() {
   console.log('document loaded');
   particlesJS.load('particles-js', '/assets/particles.json', function() {
@@ -36,8 +17,9 @@ function main() {
   }
 }
 
-function showBlogPosts() {
-  fetchJSON('blogposts.json', renderBlogLinks);
+async function showBlogPosts() {
+  let res = await fetch('blogposts.json');
+  renderBlogLinks(await res.json());
 }
 
 function renderBlogLinks(data) {
@@ -45,6 +27,7 @@ function renderBlogLinks(data) {
 
   let postdata = data.postdata;
 
+  // put lowest order at top
   postdata.sort(function(a, b) {
     return a.order - b.order;
   });
@@ -62,12 +45,14 @@ function renderBlogLinks(data) {
   document.getElementById('blogposts').innerHTML = blogPosts;
 }
 
-function showBlogPost(file) {
-  fetch(file, renderBlogPost);
+async function showBlogPost(file) {
+  let res = await fetch(file);
+  renderBlogPost(await res.text());
 }
 
 function renderBlogPost(md) {
-  document.getElementById(
-      'fold').innerHTML = ('<a href=\'/blog/\'><-- Back</a>');
-  document.getElementById('fold').innerHTML += (marked(md));
+  document.getElementById('fold').innerHTML = `
+    <a href=\'/blog/\'><-- Back</a>
+  `;
+  document.getElementById('fold').innerHTML += marked(md);
 }
