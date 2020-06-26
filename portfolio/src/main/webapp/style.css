@@ -1,9 +1,84 @@
-#content {
-  margin-left: auto;
-  margin-right: auto;
-  width: 650px;
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro');
+
+body {
+    height: 100vh;
+    width: 100vw;
+    font-family: 'Source Code Pro', monospace;
+    color: white;
 }
 
-#greeting-container {
-  margin-top: 20px;
+a {
+    color: white;
+    border-bottom: 1px dotted hsla(0, 0%, 100%, .35);
 }
+
+a:hover {
+    color: white;
+    border: none;
+    text-decoration: none;
+}
+
+.me-centerfold {
+    padding-bottom: 5em;
+}
+.me-photo {
+    width: 20em;
+    margin-bottom: 2em;
+}
+
+.me-title {
+    border-right: solid 3px rgba(0, 255, 0, .75);
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 28px;
+    color: rgba(255, 255, 255, .70);
+    margin: 0 auto 1em auto;
+}
+
+/* Animation */
+.me-title {
+    animation: animated-text 4s steps(29, end) 1s 1 normal both,
+    animated-cursor 600ms steps(29, end) infinite;
+}
+
+/* text animation */
+
+@keyframes animated-text {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+/* cursor animations */
+
+@keyframes animated-cursor {
+    from {
+        border-right-color: rgba(0, 255, 0, .75);
+    }
+    to {
+        border-right-color: transparent;
+    }
+}
+
+.me-nav li {
+    list-style-type: none;
+    display: inline;
+    text-align: justify;
+}
+
+#particles-js {
+    z-index: -999;
+    overflow: hidden;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #831659;
+    background-image: url("");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50% 50%;
+}
+
