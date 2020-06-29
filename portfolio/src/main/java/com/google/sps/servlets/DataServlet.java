@@ -24,9 +24,27 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
+  private static final COMMENTS = new ArrayList<>(Arrays.asList(
+      new CommentData("John Doe", "Wow a cool comment", new Date()),
+      new CommentData("Billy Jean", "At my door", new Date()),
+      new CommentData("James Bond", "007 is here!", new Date())
+  ));
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/html;");
-    response.getWriter().println("<h1>Hello Jevin!</h1>");
+    // Get random JSON 
+    int randomIndex = (int)(Math.random() * COMMENTS.size());
+    CommentData comment = COMMENTS.get(randomIndex);
+    String json = convertToJson(serverStats);
+
+    // Send the JSON as the response
+    response.setContentType("application/json;");
+    response.getWriter().println(json);
+  }
+
+  private String convertToJsonUsingGson(CommentData commentData) {
+    Gson gson = new Gson();
+    String json = gson.toJson(commentData);
+    return json;
   }
 }
