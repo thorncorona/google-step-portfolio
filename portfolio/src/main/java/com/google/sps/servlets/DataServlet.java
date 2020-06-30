@@ -37,17 +37,18 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get random JSON 
-    int randomIndex = (int)(Math.random() * COMMENTS.size());
-    CommentData commentData = COMMENTS.get(randomIndex);
-    String json = convertToJsonUsingGson(commentData);
+    String json = convertToJsonUsingGson(COMMENTS);
 
     // Send the JSON as the response
     response.setContentType("application/json;");
     response.getWriter().println(json);
   }
 
-  private String convertToJsonUsingGson(CommentData commentData) {
-    Gson gson = new Gson();
+  private String convertToJsonUsingGson(List<CommentData> commentData) {
+    Gson gson = new GsonBuilder()
+        .registerTypeAdapter(Date.class, (JsonDeserializer<Date>) (json, typeOfT, context) -> new Date(json.getAsJsonPrimitive().getAsLong()))
+        .registerTypeAdapter(Date.class, (JsonSerializer<Date>) (date, type, jsonSerializationContext) -> new JsonPrimitive(date.getTime()))
+        .create();
     String json = gson.toJson(commentData);
     return json;
   }

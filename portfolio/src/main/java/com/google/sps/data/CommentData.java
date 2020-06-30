@@ -30,11 +30,11 @@ public class CommentData {
     this.comment = comment;
   }
   
-  public String getDate() {
-    return date;
+  public Date getDate() {
+    return posted;
   }
 
-  public Date setDate(Date posted) {
+  public void setDate(Date posted) {
     this.posted = posted;
   }
 }

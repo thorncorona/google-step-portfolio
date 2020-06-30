@@ -10,7 +10,9 @@ function main() {
   let file = window.location.search;
   if (file != null && file.length > 0) {
     console.log('detected blog post, rendering: ' + file);
-    showBlogPost(file.substring(1) + '.md');
+    file = file.substring(1);
+    showBlogPost(file + '.md');
+    showComments(file);
   } else {
     console.log('no blog post, showing blog posts');
     showBlogPosts();
@@ -18,6 +20,7 @@ function main() {
 }
 
 async function showBlogPosts() {
+  document.getElementById('comments-container').style.display = 'none';
   let res = await fetch('blogposts.json');
   renderBlogLinks(await res.json());
 }
@@ -55,4 +58,24 @@ function renderBlogPost(md) {
     <a href=\'/blog/\'><-- Back</a>
   `;
   document.getElementById('fold').innerHTML += marked(md);
+}
+
+async function showComments(file) {
+  let res = await fetch(`/data?file=${file}`);
+  renderComments(await res.json());
+}
+
+function renderComments(comments) {
+  let commentsHTML = comments.map(comment => `
+    <div class="comment">
+      <div class="comment-feature">
+        <span class="comment-name">${comment.name}</span>
+        <span class="comment-date">${new Date(comment.posted)}</span>
+      </div>
+      <div class="comment-body">
+        ${comment.comment}
+      </div>
+    </div>
+  `).join("\n");
+  document.getElementById('comments').innerHTML = commentsHTML;
 }

@@ -69,6 +69,20 @@ a:hover {
     text-align: justify;
 }
 
+.comment-name {
+    font-size: larger;
+}
+
+.comment-date {
+    font-size: x-small;
+    font-weight: 100;
+    color: #d6d6d6;
+}
+
+.comment-body {
+    margin: 0.5em;
+}
+
 #particles-js {
     z-index: -999;
     overflow: hidden;
