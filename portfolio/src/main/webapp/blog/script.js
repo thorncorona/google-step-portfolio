@@ -76,6 +76,6 @@ function renderComments(comments) {
         ${comment.comment}
       </div>
     </div>
-  `).join("\n");
+  `).join('\n');
   document.getElementById('comments').innerHTML = commentsHTML;
 }

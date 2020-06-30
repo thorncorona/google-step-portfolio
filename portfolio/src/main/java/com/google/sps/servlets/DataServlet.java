@@ -24,7 +24,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
+/**
+ * Servlet that returns some example content.
+ */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
@@ -36,7 +38,7 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Get random JSON 
+    // Get random JSON
     String json = convertToJsonUsingGson(COMMENTS);
 
     // Send the JSON as the response
@@ -45,9 +47,14 @@ public class DataServlet extends HttpServlet {
   }
 
   private String convertToJsonUsingGson(List<CommentData> commentData) {
+    // dates are converted to unix epoch time
     Gson gson = new GsonBuilder()
-        .registerTypeAdapter(Date.class, (JsonDeserializer<Date>) (json, typeOfT, context) -> new Date(json.getAsJsonPrimitive().getAsLong()))
-        .registerTypeAdapter(Date.class, (JsonSerializer<Date>) (date, type, jsonSerializationContext) -> new JsonPrimitive(date.getTime()))
+        .registerTypeAdapter(Date.class,
+            (JsonDeserializer<Date>) (json, typeOfT, context) -> new Date(
+                json.getAsJsonPrimitive().getAsLong()))
+        .registerTypeAdapter(Date.class,
+            (JsonSerializer<Date>) (date, type, jsonSerializationContext) -> new JsonPrimitive(
+                date.getTime()))
         .create();
     String json = gson.toJson(commentData);
     return json;

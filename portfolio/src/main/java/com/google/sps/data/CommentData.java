@@ -21,7 +21,7 @@ public class CommentData {
   public void setName(String name) {
     this.name = name;
   }
-  
+
   public String getComment() {
     return comment;
   }
@@ -29,7 +29,7 @@ public class CommentData {
   public void setComment(String comment) {
     this.comment = comment;
   }
-  
+
   public Date getDate() {
     return posted;
   }
