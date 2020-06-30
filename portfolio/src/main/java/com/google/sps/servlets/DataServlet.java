@@ -14,7 +14,11 @@
 
 package com.google.sps.servlets;
 
+import com.google.gson.*;
+import com.google.sps.data.*;
+
 import java.io.IOException;
+import java.util.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-  private static final COMMENTS = new ArrayList<>(Arrays.asList(
+  private static final ArrayList<CommentData> COMMENTS = new ArrayList<>(Arrays.asList(
       new CommentData("John Doe", "Wow a cool comment", new Date()),
       new CommentData("Billy Jean", "At my door", new Date()),
       new CommentData("James Bond", "007 is here!", new Date())
@@ -34,8 +38,8 @@ public class DataServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get random JSON 
     int randomIndex = (int)(Math.random() * COMMENTS.size());
-    CommentData comment = COMMENTS.get(randomIndex);
-    String json = convertToJson(serverStats);
+    CommentData commentData = COMMENTS.get(randomIndex);
+    String json = convertToJsonUsingGson(commentData);
 
     // Send the JSON as the response
     response.setContentType("application/json;");
