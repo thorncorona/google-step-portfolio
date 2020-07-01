@@ -56,7 +56,7 @@ public class DataServlet extends HttpServlet {
             (JsonSerializer<Date>) (date, type, jsonSerializationContext) -> new JsonPrimitive(
                 date.getTime()))
         .create();
-    String json = gson.toJson(commentData);
+    return gson.toJson(commentData);
     return json;
   }
 }
