@@ -14,19 +14,49 @@
 
 package com.google.sps.servlets;
 
+import com.google.gson.*;
+import com.google.sps.data.*;
+
 import java.io.IOException;
+import java.util.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
+/**
+ * Servlet that returns some example content.
+ */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
+  private static final ArrayList<CommentData> COMMENTS = new ArrayList<>(Arrays.asList(
+      new CommentData("John Doe", "Wow a cool comment", new Date()),
+      new CommentData("Billy Jean", "At my door", new Date()),
+      new CommentData("James Bond", "007 is here!", new Date())
+  ));
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/html;");
-    response.getWriter().println("<h1>Hello Jevin!</h1>");
+    // Get random JSON
+    String json = convertToJsonUsingGson(COMMENTS);
+
+    // Send the JSON as the response
+    response.setContentType("application/json;");
+    response.getWriter().println(json);
+  }
+
+  private String convertToJsonUsingGson(List<CommentData> commentData) {
+    // dates are converted to unix epoch time
+    Gson gson = new GsonBuilder()
+        .registerTypeAdapter(Date.class,
+            (JsonDeserializer<Date>) (json, typeOfT, context) -> new Date(
+                json.getAsJsonPrimitive().getAsLong()))
+        .registerTypeAdapter(Date.class,
+            (JsonSerializer<Date>) (date, type, jsonSerializationContext) -> new JsonPrimitive(
+                date.getTime()))
+        .create();
+    return gson.toJson(commentData);
+    return json;
   }
 }
