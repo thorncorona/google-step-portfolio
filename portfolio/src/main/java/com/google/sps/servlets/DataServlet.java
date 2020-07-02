@@ -57,6 +57,5 @@ public class DataServlet extends HttpServlet {
                 date.getTime()))
         .create();
     return gson.toJson(commentData);
-    return json;
-  }
+    }
 }

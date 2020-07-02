@@ -63,14 +63,17 @@ function renderBlogPost(md) {
 async function showComments(file) {
   let res = await fetch(`/data?file=${file}`);
   renderComments(await res.json());
+
+  document.getElementById('comments-reply-title').value = file;
 }
 
 function renderComments(comments) {
+  let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   let commentsHTML = comments.map(comment => `
     <div class="comment">
       <div class="comment-feature">
         <span class="comment-name">${comment.name}</span>
-        <span class="comment-date">${new Date(comment.posted)}</span>
+        <span class="comment-date">${new Date(comment.posted).toLocaleDateString("en-US", options)}</span>
       </div>
       <div class="comment-body">
         ${comment.comment}
