@@ -15,8 +15,7 @@
 package com.google.sps.servlets;
 
 import com.google.gson.*;
-import com.google.sps.data.*;
-
+import com.google.sps.data.CommentData;
 import java.io.IOException;
 import java.util.*;
 import javax.servlet.annotation.WebServlet;
@@ -30,20 +29,26 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-  private static final ArrayList<CommentData> COMMENTS = new ArrayList<>(Arrays.asList(
-      new CommentData("John Doe", "Wow a cool comment", new Date()),
-      new CommentData("Billy Jean", "At my door", new Date()),
-      new CommentData("James Bond", "007 is here!", new Date())
-  ));
+  private ArrayList<CommentData> comments = new ArrayList<>();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     // Get random JSON
-    String json = convertToJsonUsingGson(COMMENTS);
+    String json = convertToJsonUsingGson(comments);
 
     // Send the JSON as the response
     response.setContentType("application/json;");
     response.getWriter().println(json);
+  }
+
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String name = getParameter(request, "name", "A random person");
+    String comment = getParameter(request, "comment", "Unspecified comment");
+    Date date = new Date();
+
+    comments.add(new CommentData(name, comment, date));
+    response.sendRedirect("/data");
   }
 
   private String convertToJsonUsingGson(List<CommentData> commentData) {
@@ -57,5 +62,17 @@ public class DataServlet extends HttpServlet {
                 date.getTime()))
         .create();
     return gson.toJson(commentData);
+  }
+
+  /**
+   * @return the request parameter, or the default value if the parameter was not specified by the
+   * client
+   */
+  private String getParameter(HttpServletRequest request, String name, String defaultValue) {
+    String value = request.getParameter(name);
+    if (value == null) {
+      return defaultValue;
     }
+    return value;
+  }
 }
