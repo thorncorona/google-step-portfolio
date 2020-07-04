@@ -30,20 +30,20 @@
                     <div class="col-md-6"> 
                         <div>-------------------------------</div>
                         <h3>Reply</h3>
-                        <form>
+                        <form method="POST" action="/data">
                             <div class="row">
                                 <label class="col-sm-2 col-form-label" for="name">Name:</label>
                                 <div class="col-sm-10">
-                                    <input type="text" name="name" class="w-100"/>
+                                    <input type="text" name="name" class="w-100" required/>
                                 </div>
                             </div>
                             <div class="row">
                                 <label class="col-sm-2 col-form-label" for="comment">Comment:</label>
                                 <div class="col-sm-10">
-                                    <textarea name="comment" class="w-100"></textarea>
+                                    <textarea name="comment" class="w-100" required></textarea>
                                 </div>
                             </div>
-                            <input type="hidden" name="page" id="comments-reply-title" />
+                            <input type="hidden" name="page" id="comments-reply-title" required/>
                             <button type="submit" class="btn btn-primary mt-2">Submit</button>
                         </form>
                     </div>

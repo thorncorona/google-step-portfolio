@@ -29,12 +29,13 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-  private ArrayList<CommentData> comments = new ArrayList<>();
+  private Map<String, List<CommentData>> comments = new HashMap<>();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Get random JSON
-    String json = convertToJsonUsingGson(comments);
+    // Get JSON comments for a specific blog post
+    List<CommentData> blogComments = comments.getOrDefault(request.getParameter("file"), new ArrayList<CommentData>());
+    String json = convertToJsonUsingGson(blogComments);
 
     // Send the JSON as the response
     response.setContentType("application/json;");
@@ -43,12 +44,22 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    // adds comment to specific blog post
     String name = getParameter(request, "name", "A random person");
     String comment = getParameter(request, "comment", "Unspecified comment");
+    String page = getParameter(request, "page", "");
+
     Date date = new Date();
 
-    comments.add(new CommentData(name, comment, date));
-    response.sendRedirect("/data");
+    // add to existing comments list if exists, otherwise create and add to new comments list
+    List<CommentData> blogComments = comments.get(page);
+    if (blogComments == null) {
+        blogComments = new ArrayList<CommentData>();
+        comments.put(page, blogComments);
+    }
+
+    blogComments.add(new CommentData(name, comment, date));
+    response.sendRedirect("/blog/?" + page);
   }
 
   private String convertToJsonUsingGson(List<CommentData> commentData) {
