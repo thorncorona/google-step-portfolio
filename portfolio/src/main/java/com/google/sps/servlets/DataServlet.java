@@ -14,6 +14,12 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.gson.*;
 import com.google.sps.data.CommentData;
 import java.io.IOException;
@@ -29,14 +35,26 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-  private Map<String, List<CommentData>> comments = new HashMap<>();
-
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    // Get JSON comments for a specific blog post
-    List<CommentData> blogComments = comments.getOrDefault(request.getParameter("file"), new ArrayList<CommentData>());
-    String json = convertToJsonUsingGson(blogComments);
+    String page = request.getParameter("file");
+    Query query = new Query("Comment_" + page).addSort("timestamp", SortDirection.DESCENDING);
 
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery results = datastore.prepare(query);
+
+    List<CommentData> comments = new ArrayList<>();
+    for (Entity entity : results.asIterable()) {
+      long id = entity.getKey().getId();
+      String name = (String) entity.getProperty("name");
+      String comment = (String) entity.getProperty("comment");
+      long timestamp = (long) entity.getProperty("timestamp");
+
+      CommentData commentData = new CommentData(id, name, comment, new Date(timestamp));
+      comments.add(commentData);
+    }
+
+    String json = convertToJsonUsingGson(comments);
     // Send the JSON as the response
     response.setContentType("application/json;");
     response.getWriter().println(json);
@@ -49,16 +67,16 @@ public class DataServlet extends HttpServlet {
     String comment = getParameter(request, "comment", "Unspecified comment");
     String page = getParameter(request, "page", "");
 
-    Date date = new Date();
+    long timestamp = System.currentTimeMillis();
 
-    // add to existing comments list if exists, otherwise create and add to new comments list
-    List<CommentData> blogComments = comments.get(page);
-    if (blogComments == null) {
-        blogComments = new ArrayList<CommentData>();
-        comments.put(page, blogComments);
-    }
+    Entity commentEntity = new Entity("Comment_" + page);
+    commentEntity.setProperty("name", name);
+    commentEntity.setProperty("comment", comment);
+    commentEntity.setProperty("timestamp", timestamp);
 
-    blogComments.add(new CommentData(name, comment, date));
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    datastore.put(commentEntity);
+
     response.sendRedirect("/blog/?" + page);
   }
 
