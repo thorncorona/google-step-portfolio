@@ -38,6 +38,9 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String page = request.getParameter("file");
+    String maxNumString = getParameter(request, "max", "10");
+    int maxNum = Integer.parseInt(maxNumString);
+
     Query query = new Query("Comment_" + page).addSort("timestamp", SortDirection.DESCENDING);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -53,6 +56,8 @@ public class DataServlet extends HttpServlet {
       CommentData commentData = new CommentData(id, name, comment, new Date(timestamp));
       comments.add(commentData);
     }
+
+    comments = comments.subList(0, Math.min(comments.size(), maxNum));
 
     String json = convertToJsonUsingGson(comments);
     // Send the JSON as the response
