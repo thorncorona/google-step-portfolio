@@ -4,14 +4,24 @@ import java.util.*;
 
 public class CommentData {
 
+  private long id;
   private String name;
   private String comment;
   private Date posted;
 
-  public CommentData(String name, String comment, Date posted) {
+  public CommentData(long id, String name, String comment, Date posted) {
+    this.id = id;
     this.name = name;
     this.comment = comment;
     this.posted = posted;
+  }
+
+  public long getId() {
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
   }
 
   public String getName() {
