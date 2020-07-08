@@ -1,5 +1,5 @@
 var N = 10;
-var FILE = "";
+var FILE = '';
 
 (function() {
   main();
@@ -52,7 +52,7 @@ function renderBlogLinks(data) {
 }
 
 async function showBlogPost() {
-  let res = await fetch(FILE + ".md");
+  let res = await fetch(FILE + '.md');
   renderBlogPost(await res.text());
 }
 
@@ -81,14 +81,20 @@ function showLessComments() {
 }
 
 function renderComments(comments) {
-  let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  let options = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
   let page = window.location.search.substring(1);
   let commentsHTML = comments.map(comment => `
     <div class="comment">
       <div class="comment-feature">
         <span class="comment-delete"><a onclick="deleteComment('${page}', ${comment.id})">[-]</a></span>
         <span class="comment-name">${comment.name}</span>
-        <span class="comment-date">${new Date(comment.posted).toLocaleDateString("en-US", options)}</span>
+        <span class="comment-date">${new Date(
+      comment.posted).toLocaleDateString('en-US', options)}</span>
       </div>
       <div class="comment-body">
         ${comment.comment}
@@ -102,9 +108,9 @@ async function deleteComment(page, id) {
   await fetch('/delete-task', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/x-www-form-urlencoded',
     },
-    body: `page=${encodeURIComponent(page)}&id=${encodeURIComponent(id)}`
+    body: `page=${encodeURIComponent(page)}&id=${encodeURIComponent(id)}`,
   });
   await showComments();
 }
