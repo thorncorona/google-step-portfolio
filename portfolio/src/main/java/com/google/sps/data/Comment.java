@@ -8,9 +8,9 @@ public class Comment {
   private String name;
   private String comment;
   private Date posted;
-  private float sentimentScore;
+  private double sentimentScore;
 
-  public Comment(long id, String name, String comment, Date posted, float sentimentScore) {
+  public Comment(long id, String name, String comment, Date posted, double sentimentScore) {
     this.id = id;
     this.name = name;
     this.comment = comment;
@@ -50,11 +50,11 @@ public class Comment {
     this.posted = posted;
   }
 
-  public float getSentimentScore() {
+  public double getSentimentScore() {
     return sentimentScore;
   }
 
-  public void setSentimentScore(float sentimentScore) {
+  public void setSentimentScore(double sentimentScore) {
     this.sentimentScore = sentimentScore;
   }
 

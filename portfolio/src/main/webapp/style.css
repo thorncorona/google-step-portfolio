@@ -73,6 +73,11 @@ a:hover {
   font-size: larger;
 }
 
+.comment-sentiment {
+  color: #9696ff;
+  font-size: smaller;
+}
+
 .comment-date {
   font-size: x-small;
   font-weight: 100;

@@ -51,7 +51,7 @@ public class DataServlet extends HttpServlet {
       String name = (String) entity.getProperty("name");
       String comment = (String) entity.getProperty("comment");
       long timestamp = (long) entity.getProperty("timestamp");
-      float sentimentScore = (float) entity.getProperty("sentimentScore");
+      double sentimentScore = (double) entity.getProperty("sentimentScore");
 
       Comment commentData = new Comment(id, name, comment, new Date(timestamp), sentimentScore);
       comments.add(commentData);
@@ -78,7 +78,7 @@ public class DataServlet extends HttpServlet {
         Document.newBuilder().setContent(comment).setType(Document.Type.PLAIN_TEXT).build();
     LanguageServiceClient languageService = LanguageServiceClient.create();
     Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
-    float sentimentScore = sentiment.getScore();
+    double sentimentScore = new Float(sentiment.getScore()).doubleValue();
     languageService.close();
 
     Entity commentEntity = new Entity("Comment_" + page);
