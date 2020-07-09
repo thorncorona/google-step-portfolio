@@ -14,6 +14,9 @@
 
 package com.google.sps.servlets;
 
+import com.google.cloud.translate.Translate;
+import com.google.cloud.translate.TranslateOptions;
+import com.google.cloud.translate.Translation;
 import com.google.cloud.language.v1.Document;
 import com.google.cloud.language.v1.LanguageServiceClient;
 import com.google.cloud.language.v1.Sentiment;
@@ -34,10 +37,20 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
+  private static final List<String> ACCEPTED_LANGUAGES = Arrays.asList("EN", "ZH", "ES", "AR");
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String page = request.getParameter("file");
     String maxNumString = getParameter(request, "max", "10");
+    String lang = getParameter(request, "lang", "EN");
+
+    if (!ACCEPTED_LANGUAGES.contains(lang)) {
+        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        response.getWriter().println("language not accepted");
+        return;
+    }
+    
     int maxNum = Integer.parseInt(maxNumString);
 
     Query query = new Query("Comment_" + page).addSort("timestamp", SortDirection.DESCENDING);
@@ -53,7 +66,12 @@ public class DataServlet extends HttpServlet {
       long timestamp = (long) entity.getProperty("timestamp");
       double sentimentScore = (double) entity.getProperty("sentimentScore");
 
-      Comment commentData = new Comment(id, name, comment, new Date(timestamp), sentimentScore);
+      Translate translate = TranslateOptions.getDefaultInstance().getService();
+      Translation translation =
+          translate.translate(comment, Translate.TranslateOption.targetLanguage(lang));
+      String translatedText = translation.getTranslatedText();
+
+      Comment commentData = new Comment(id, name, translatedText, new Date(timestamp), sentimentScore);
       comments.add(commentData);
     }
 
@@ -61,6 +79,8 @@ public class DataServlet extends HttpServlet {
 
     String json = convertToJsonUsingGson(comments);
     // Send the JSON as the response
+    response.setContentType("text/html; charset=UTF-8");
+    response.setCharacterEncoding("UTF-8");
     response.setContentType("application/json;");
     response.getWriter().println(json);
   }

@@ -64,7 +64,9 @@ function renderBlogPost(md) {
 }
 
 async function showComments() {
-  let res = await fetch(`/data?file=${FILE}&max=${N}`);
+  let langSelect = document.getElementById('comment-lang-select')
+  let lang = langSelect.options[langSelect.selectedIndex].value;
+  let res = await fetch(`/data?file=${FILE}&max=${N}&lang=${lang}`);
   renderComments(await res.json());
 
   document.getElementById('comments-reply-title').value = FILE;
