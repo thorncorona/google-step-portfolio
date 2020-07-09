@@ -14,20 +14,25 @@
 
 package com.google.sps.servlets;
 
-import com.google.api.gax.core.GoogleCredentialsProvider;
-import com.google.appengine.repackaged.com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
-import com.google.auth.oauth2.ComputeEngineCredentials;
-import com.google.auth.oauth2.GoogleCredentials;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.cloud.language.v1.Document;
 import com.google.cloud.language.v1.LanguageServiceClient;
-import com.google.cloud.language.v1.LanguageServiceSettings;
 import com.google.cloud.language.v1.Sentiment;
-import com.google.appengine.api.datastore.*;
-import com.google.appengine.api.datastore.Query.SortDirection;
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializer;
 import com.google.sps.data.Comment;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -82,11 +87,10 @@ public class DataServlet extends HttpServlet {
     Document doc =
         Document.newBuilder().setContent(comment).setType(Document.Type.PLAIN_TEXT).build();
 
-    GoogleCredentials credentials = ComputeEngineCredentials.create();
     LanguageServiceClient languageService = LanguageServiceClient.create();
 
     Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
-    double sentimentScore = new Float(sentiment.getScore()).doubleValue();
+    double sentimentScore = sentiment.getScore();
     languageService.close();
 
     Entity commentEntity = new Entity("Comment_" + page);
