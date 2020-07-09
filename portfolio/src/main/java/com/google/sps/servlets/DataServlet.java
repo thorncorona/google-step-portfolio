@@ -14,8 +14,13 @@
 
 package com.google.sps.servlets;
 
+import com.google.api.gax.core.GoogleCredentialsProvider;
+import com.google.appengine.repackaged.com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
+import com.google.auth.oauth2.ComputeEngineCredentials;
+import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.language.v1.Document;
 import com.google.cloud.language.v1.LanguageServiceClient;
+import com.google.cloud.language.v1.LanguageServiceSettings;
 import com.google.cloud.language.v1.Sentiment;
 import com.google.appengine.api.datastore.*;
 import com.google.appengine.api.datastore.Query.SortDirection;
@@ -76,7 +81,10 @@ public class DataServlet extends HttpServlet {
 
     Document doc =
         Document.newBuilder().setContent(comment).setType(Document.Type.PLAIN_TEXT).build();
+
+    GoogleCredentials credentials = ComputeEngineCredentials.create();
     LanguageServiceClient languageService = LanguageServiceClient.create();
+
     Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
     double sentimentScore = new Float(sentiment.getScore()).doubleValue();
     languageService.close();
