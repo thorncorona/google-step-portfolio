@@ -20,12 +20,16 @@ import com.google.cloud.translate.Translation;
 import com.google.cloud.language.v1.Document;
 import com.google.cloud.language.v1.LanguageServiceClient;
 import com.google.cloud.language.v1.Sentiment;
-import com.google.appengine.api.datastore.*;
-import com.google.appengine.api.datastore.Query.SortDirection;
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializer;
 import com.google.sps.data.Comment;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -96,9 +100,11 @@ public class DataServlet extends HttpServlet {
 
     Document doc =
         Document.newBuilder().setContent(comment).setType(Document.Type.PLAIN_TEXT).build();
+
     LanguageServiceClient languageService = LanguageServiceClient.create();
+
     Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
-    double sentimentScore = new Float(sentiment.getScore()).doubleValue();
+    double sentimentScore = sentiment.getScore();
     languageService.close();
 
     Entity commentEntity = new Entity("Comment_" + page);
