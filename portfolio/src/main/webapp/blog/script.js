@@ -1,3 +1,6 @@
+var N = 10;
+var FILE = '';
+
 (function() {
   main();
 })();
@@ -10,9 +13,9 @@ function main() {
   let file = window.location.search;
   if (file != null && file.length > 0) {
     console.log('detected blog post, rendering: ' + file);
-    file = file.substring(1);
-    showBlogPost(file + '.md');
-    showComments(file);
+    FILE = file.substring(1);
+    showBlogPost();
+    showComments();
   } else {
     console.log('no blog post, showing blog posts');
     showBlogPosts();
@@ -48,8 +51,8 @@ function renderBlogLinks(data) {
   document.getElementById('blogposts').innerHTML = blogPosts;
 }
 
-async function showBlogPost(file) {
-  let res = await fetch(file);
+async function showBlogPost() {
+  let res = await fetch(FILE + '.md');
   renderBlogPost(await res.text());
 }
 
@@ -60,20 +63,38 @@ function renderBlogPost(md) {
   document.getElementById('fold').innerHTML += marked(md);
 }
 
-async function showComments(file) {
-  let res = await fetch(`/data?file=${file}`);
+async function showComments() {
+  let res = await fetch(`/data?file=${FILE}&max=${N}`);
   renderComments(await res.json());
 
-  document.getElementById('comments-reply-title').value = file;
+  document.getElementById('comments-reply-title').value = FILE;
+}
+
+function showMoreComments() {
+  N += 10;
+  showComments();
+}
+
+function showLessComments() {
+  N -= 10;
+  showComments();
 }
 
 function renderComments(comments) {
-  let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  let options = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
+  let page = window.location.search.substring(1);
   let commentsHTML = comments.map(comment => `
     <div class="comment">
       <div class="comment-feature">
+        <span class="comment-delete"><a onclick="deleteComment('${page}', ${comment.id})">[-]</a></span>
         <span class="comment-name">${comment.name}</span>
-        <span class="comment-date">${new Date(comment.posted).toLocaleDateString("en-US", options)}</span>
+        <span class="comment-date">${new Date(
+      comment.posted).toLocaleDateString('en-US', options)}</span>
       </div>
       <div class="comment-body">
         ${comment.comment}
@@ -81,4 +102,15 @@ function renderComments(comments) {
     </div>
   `).join('\n');
   document.getElementById('comments').innerHTML = commentsHTML;
+}
+
+async function deleteComment(page, id) {
+  await fetch('/delete-task', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: `page=${encodeURIComponent(page)}&id=${encodeURIComponent(id)}`,
+  });
+  await showComments();
 }
