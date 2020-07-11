@@ -53,11 +53,11 @@ public class DataServlet extends HttpServlet {
     String lang = getParameter(request, "lang", "EN");
 
     if (!ACCEPTED_LANGUAGES.contains(lang)) {
-        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        response.getWriter().println("language not accepted");
-        return;
+      response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+      response.getWriter().println("language not accepted");
+      return;
     }
-    
+
     int maxNum = Integer.parseInt(maxNumString);
 
     Query query = new Query("Comment_" + page).addSort("timestamp", SortDirection.DESCENDING);
@@ -78,7 +78,8 @@ public class DataServlet extends HttpServlet {
           translate.translate(comment, Translate.TranslateOption.targetLanguage(lang));
       String translatedText = translation.getTranslatedText();
 
-      Comment commentData = new Comment(id, name, translatedText, new Date(timestamp), sentimentScore);
+      Comment commentData = new Comment(id, name, translatedText, new Date(timestamp),
+          sentimentScore);
       comments.add(commentData);
     }
 

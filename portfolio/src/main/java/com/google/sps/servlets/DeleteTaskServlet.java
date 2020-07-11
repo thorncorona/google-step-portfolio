@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 public class DeleteTaskServlet extends HttpServlet {
 
   @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException  {
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     long id = Long.parseLong(request.getParameter("id"));
     String page = request.getParameter("page");
 
