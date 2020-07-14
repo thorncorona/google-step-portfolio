@@ -11,9 +11,9 @@ html {
 }
 
 @media screen and (prefers-reduced-motion: reduce) {
-	html {
-		scroll-behavior: auto;
-	}
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 a {
@@ -153,6 +153,7 @@ img.logo {
     transform: translateY(-15px);
   }
 }
+
 @-webkit-keyframes bounce {
   0%, 20%, 50%, 80%, 100% {
     -webkit-transform: translateY(0);
@@ -167,6 +168,7 @@ img.logo {
     transform: translateY(-15px);
   }
 }
+
 @keyframes bounce {
   0%, 20%, 50%, 80%, 100% {
     -moz-transform: translateY(0);
