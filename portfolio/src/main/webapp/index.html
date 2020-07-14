@@ -3,30 +3,215 @@
 <head>
   <meta charset="UTF-8">
   <title>Jevin G</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
   <link rel="stylesheet" href="/style.css">
 </head>
-<body>
+<body data-spy="scroll" data-target="#navbar-menu-fixed" data-offset="50">
 <div id="particles-js"></div>
-<div class="h-100">
-  <div class="container h-100">
-    <div class="row h-100 justify-content-center align-items-center">
-      <div class="row">
-        <div class="col-sm-12 me-centerfold">
-          <img class="me-photo rounded-circle" src="assets/me2.jpg" alt="">
-          <h1><p class="me-title">Hello! I'm Jevin! :)</p></h1>
-          <div class="me-nav d-flex justify-content-between">
-            <span><a href="/blog/">Blog</a></span>
-            <span><a href="https://github.com/thorncorona">Projects</a></span>
-            <span><a href="mailto:thorncorona@gmail.com">Contact</a></span>
+<nav class="navbar d-none d-md-block" id="navbar-menu-fixed">
+  <ul class="nav flex-column">
+    <li class="nav-item">
+      <a class="nav-link active" href="#home">Home</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#about">About</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#blog">Blog</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#photography">Photos</a>
+    </li>
+  </ul>
+</nav>
+<main class="h-100">
+  <section id="home" class="h-100">
+    <div class="h-100">
+      <div class="container h-100">
+        <div class="row h-100 justify-content-center align-items-center">
+          <div class="row">
+            <div class="col-sm-12 me-centerfold">
+              <img class="me-photo rounded-circle" src="assets/me2.jpg" alt="">
+              <h1><p class="me-title">Hello! I'm Jevin! :)</p></h1>
+              <div class="me-nav d-flex justify-content-between">
+                <span><a href="/blog/">Blog</a></span>
+                <span><a href="https://github.com/thorncorona">Projects</a></span>
+                <span><a href="mailto:thorncorona@gmail.com">Contact</a></span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
-<script src="/js/particles.min.js"></script>
-<script src="/script.js"></script>
+    <div class="arrow-box">
+      <a href="#about">
+        <div class="arrow bounce"></div>
+      </a>
+    </div>
+  </section>
+  <section id="about" class="h-100 content-section">
+    <div class="container h-100">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="section-title">About Me</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <h3>Work Experience</h3>
+        </div>
+        <div class="col-md-8">
+          <div class="row mb-5">
+            <div class="col">
+              <h4>Google</h4>
+              <div class="font-weight-lighter">June-September 2020</div>
+              <div  >
+                STEP Intern
+              </div>
+            </div>
+          </div>
+          <div class="row mb-5">
+            <div class="col">
+              <h4>Clobotics</h4>
+              <div class="font-weight-lighter">June-September 2019</div>
+              <div>
+                Computer Vision/Machine Learning Intern
+              </div>
+            </div>
+          </div>
+          <div class="row mb-5">
+            <div class="col">
+              <h4>Origin Labs</h4>
+              <div class="font-weight-lighter">June-September 2018</div>
+              <div>
+                Software Engineering Intern
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <h3>Education</h3>
+        </div>
+        <div class="col-md-8">
+          <div>
+            University of Washington 2020-2023 - Computer Science
+          </div>
+          <div>
+            Tesla STEM High School 2015-2019
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="blog" class="h-100 content-section">
+    <div class="container h-100">
+      <div class="row">
+        <div class="col-md-12">
+          <h4 class="section-title">Blog - Most Recent Blog Post</h4>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12" id="blog-content">
+
+        </div>
+      </div>
+      <div class="row blog-link">
+        <div class="col-md-12 text-right">
+          <a href="/blog">View all blog posts...</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="photography" class="h-100 content-section container">
+    <div class="row">
+      <div class="col-md-12">
+        <h1>Photography</h1>
+      </div>
+    </div>
+    <div class="row text-center text-lg-left">
+
+      <div class="col-lg-3 col-md-4 col-6">
+        <a href="/assets/gallery/batmobile.jpg" data-toggle="lightbox" class="d-block mb-4 h-100">
+          <img class="img-fluid img-thumbnail" src="/assets/gallery/batmobile.jpg" alt="">
+        </a>
+      </div>
+      <div class="col-lg-3 col-md-4 col-6">
+        <a href="/assets/gallery/city_groundscape.jpg" data-toggle="lightbox" class="d-block mb-4 h-100">
+          <img class="img-fluid img-thumbnail" src="/assets/gallery/city_groundscape_sm.jpg" alt="">
+        </a>
+      </div>
+      <div class="col-lg-3 col-md-4 col-6">
+        <a href="/assets/gallery/escalator.jpg" data-toggle="lightbox" class="d-block mb-4 h-100">
+          <img class="img-fluid img-thumbnail" src="/assets/gallery/escalator.jpg" alt="">
+        </a>
+      </div>
+      <div class="col-lg-3 col-md-4 col-6">
+        <a href="/assets/gallery/inlet.jpg" data-toggle="lightbox" class="d-block mb-4 h-100">
+          <img class="img-fluid img-thumbnail" src="/assets/gallery/inlet.jpg" alt="">
+        </a>
+      </div>
+      <div class="col-lg-3 col-md-4 col-6">
+        <a href="/assets/gallery/diablo_lake.jpg" data-toggle="lightbox" class="d-block mb-4 h-100">
+          <img class="img-fluid img-thumbnail" src="/assets/gallery/diablo_lake.jpg" alt="">
+        </a>
+      </div>
+      <div class="col-lg-3 col-md-4 col-6">
+        <a href="/assets/gallery/lincoln_memorial.jpg" data-toggle="lightbox" class="d-block mb-4 h-100">
+          <img class="img-fluid img-thumbnail" src="/assets/gallery/lincoln_memorial.jpg" alt="">
+        </a>
+      </div>
+      <div class="col-lg-3 col-md-4 col-6">
+        <a href="/assets/gallery/boat.jpg" data-toggle="lightbox" class="d-block mb-4 h-100">
+          <img class="img-fluid img-thumbnail" src="/assets/gallery/boat.jpg" alt="">
+        </a>
+      </div>
+      <div class="col-lg-3 col-md-4 col-6">
+        <a href="/assets/gallery/neon_night.jpg" data-toggle="lightbox" class="d-block mb-4 h-100">
+          <img class="img-fluid img-thumbnail" src="/assets/gallery/neon_night_sm.jpg" alt="">
+        </a>
+      </div>
+      <div class="col-lg-3 col-md-4 col-6">
+        <a href="/assets/gallery/ocean.jpg" data-toggle="lightbox" class="d-block mb-4 h-100">
+          <img class="img-fluid img-thumbnail" src="/assets/gallery/ocean.jpg" alt="">
+        </a>
+      </div>
+      <div class="col-lg-3 col-md-4 col-6">
+        <a href="/assets/gallery/rolling_hills.jpg" data-toggle="lightbox" class="d-block mb-4 h-100">
+          <img class="img-fluid img-thumbnail" src="/assets/gallery/rolling_hills.jpg" alt="">
+        </a>
+      </div>
+      <div class="col-lg-3 col-md-4 col-6">
+        <a href="/assets/gallery/islands.jpg" data-toggle="lightbox" class="d-block mb-4 h-100">
+          <img class="img-fluid img-thumbnail" src="/assets/gallery/islands.jpg" alt="">
+        </a>
+      </div>
+      <div class="col-lg-3 col-md-4 col-6">
+        <a href="/assets/gallery/washington_monument.jpg" data-toggle="lightbox" class="d-block mb-4 h-100">
+          <img class="img-fluid img-thumbnail" src="/assets/gallery/washington_monument_sm.jpg" alt="">
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous" async></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"
+        crossorigin="anonymous" async></script>
+<script src="/js/particles.min.js" async></script>
+<script src="/js/marked.min.js" async></script>
+<script src="/script.js" defer></script>
 </body>
 </html>
