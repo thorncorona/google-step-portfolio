@@ -20,10 +20,19 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
-import com.google.gson.*;
-import com.google.sps.data.CommentData;
+import com.google.cloud.language.v1.Document;
+import com.google.cloud.language.v1.LanguageServiceClient;
+import com.google.cloud.language.v1.Sentiment;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializer;
+import com.google.sps.data.Comment;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -46,14 +55,15 @@ public class DataServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
-    List<CommentData> comments = new ArrayList<>();
+    List<Comment> comments = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
       long id = entity.getKey().getId();
       String name = (String) entity.getProperty("name");
       String comment = (String) entity.getProperty("comment");
       long timestamp = (long) entity.getProperty("timestamp");
+      double sentimentScore = (double) entity.getProperty("sentimentScore");
 
-      CommentData commentData = new CommentData(id, name, comment, new Date(timestamp));
+      Comment commentData = new Comment(id, name, comment, new Date(timestamp), sentimentScore);
       comments.add(commentData);
     }
 
@@ -74,10 +84,20 @@ public class DataServlet extends HttpServlet {
 
     long timestamp = System.currentTimeMillis();
 
+    Document doc =
+        Document.newBuilder().setContent(comment).setType(Document.Type.PLAIN_TEXT).build();
+
+    LanguageServiceClient languageService = LanguageServiceClient.create();
+
+    Sentiment sentiment = languageService.analyzeSentiment(doc).getDocumentSentiment();
+    double sentimentScore = sentiment.getScore();
+    languageService.close();
+
     Entity commentEntity = new Entity("Comment_" + page);
     commentEntity.setProperty("name", name);
     commentEntity.setProperty("comment", comment);
     commentEntity.setProperty("timestamp", timestamp);
+    commentEntity.setProperty("sentimentScore", sentimentScore);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);
@@ -85,7 +105,7 @@ public class DataServlet extends HttpServlet {
     response.sendRedirect("/blog/?" + page);
   }
 
-  private String convertToJsonUsingGson(List<CommentData> commentData) {
+  private String convertToJsonUsingGson(List<Comment> commentData) {
     // dates are converted to unix epoch time
     Gson gson = new GsonBuilder()
         .registerTypeAdapter(Date.class,

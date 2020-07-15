@@ -93,6 +93,8 @@ function renderComments(comments) {
       <div class="comment-feature">
         <span class="comment-delete"><a onclick="deleteComment('${page}', ${comment.id})">[-]</a></span>
         <span class="comment-name">${comment.name}</span>
+        <span class="comment-sentiment">${sentimentToPositivity(
+      comment.sentimentScore)}</span>
         <span class="comment-date">${new Date(
       comment.posted).toLocaleDateString('en-US', options)}</span>
       </div>
@@ -113,4 +115,18 @@ async function deleteComment(page, id) {
     body: `page=${encodeURIComponent(page)}&id=${encodeURIComponent(id)}`,
   });
   await showComments();
+}
+
+function sentimentToPositivity(score) {
+  if (score < -0.75) {
+    return 'Very Negative';
+  } else if (score < -0.3) {
+    return 'Negative';
+  } else if (score < 0.3) {
+    return 'Neutral';
+  } else if (score < 0.75) {
+    return 'Positive';
+  } else {
+    return 'Very Positive';
+  }
 }

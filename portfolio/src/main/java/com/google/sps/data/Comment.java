@@ -2,18 +2,20 @@ package com.google.sps.data;
 
 import java.util.*;
 
-public class CommentData {
+public class Comment {
 
   private long id;
   private String name;
   private String comment;
   private Date posted;
+  private double sentimentScore;
 
-  public CommentData(long id, String name, String comment, Date posted) {
+  public Comment(long id, String name, String comment, Date posted, double sentimentScore) {
     this.id = id;
     this.name = name;
     this.comment = comment;
     this.posted = posted;
+    this.sentimentScore = sentimentScore;
   }
 
   public long getId() {
@@ -47,4 +49,13 @@ public class CommentData {
   public void setDate(Date posted) {
     this.posted = posted;
   }
+
+  public double getSentimentScore() {
+    return sentimentScore;
+  }
+
+  public void setSentimentScore(double sentimentScore) {
+    this.sentimentScore = sentimentScore;
+  }
+
 }
