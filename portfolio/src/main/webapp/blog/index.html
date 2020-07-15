@@ -1,73 +1,73 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Jevin G</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="/style.css">
+  <meta charset="UTF-8">
+  <title>Jevin G</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 <div id="particles-js"></div>
 <div class="container">
-    <div class="row">
-        <div class="col-md-12 mt-4" id="fold">
-            <a href="/"><-- Back</a>
-            <h1>Blog posts</h1>
-            <div>-------------------------------</div>
-            <div id="blogposts">
-                Loading...
-            </div>
-        </div>
+  <div class="row">
+    <div class="col-md-12 mt-4" id="fold">
+      <a href="/"><-- Back</a>
+      <h1>Blog posts</h1>
+      <div>-------------------------------</div>
+      <div id="blogposts">
+        Loading...
+      </div>
     </div>
-    <div class="row" id="comments-container">
-        <div class="col-md-12 mt-4">
+  </div>
+  <div class="row" id="comments-container">
+    <div class="col-md-12 mt-4">
+      <div>-------------------------------</div>
+      <h3>Comments</h3>
+      <div class="comment-lang">
+        Translate comments to: 
+        <select name="lang" id="comment-lang-select" onchange="showComments();">
+          <option value="EN" selected>English</option>
+          <option value="ZH">Chinese</option>
+          <option value="ES">Spanish</option>
+          <option value="AR">Arabic</option>
+        </select>
+      </div>
+      <div>-------------------------------</div>
+      <div id="comments"></div>
+      <div class="mb-4" id="comments-add">
+        <div class="row">
+          <div class="col-md-6">
             <div>-------------------------------</div>
-            <h3>Comments</h3>
-            <div class="comment-lang">
-                Translate comments to: 
-                <select name="lang" id="comment-lang-select" onchange="showComments();">
-                    <option value="EN" selected>English</option>
-                    <option value="ZH">Chinese</option>
-                    <option value="ES">Spanish</option>
-                    <option value="AR">Arabic</option>
-                </select>
+            <div>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <!-- center text -->
+              <a onclick="showMoreComments()">+</a>
+              Show comments
+              <a onclick="showLessComments()">-</a>
             </div>
             <div>-------------------------------</div>
-            <div id="comments"></div>
-            <div class="mb-4" id="comments-add">
-                <div class="row">
-                    <div class="col-md-6"> 
-                        <div>-------------------------------</div>
-                        <div>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <!-- center text -->
-                            <a onclick="showMoreComments()">+</a> 
-                            Show comments 
-                            <a onclick="showLessComments()">-</a>
-                        </div>
-                        <div>-------------------------------</div>
-                        <h3>Reply</h3>
-                        <form method="POST" action="/data">
-                            <div class="row">
-                                <label class="col-sm-2 col-form-label" for="name">Name:</label>
-                                <div class="col-sm-10">
-                                    <input type="text" name="name" class="w-100" required/>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <label class="col-sm-2 col-form-label" for="comment">Comment:</label>
-                                <div class="col-sm-10">
-                                    <textarea name="comment" class="w-100" required></textarea>
-                                </div>
-                            </div>
-                            <input type="hidden" name="page" id="comments-reply-title" required/>
-                            <button type="submit" class="btn btn-primary mt-2">Submit</button>
-                        </form>
-                    </div>
+            <h3>Reply</h3>
+            <form method="POST" action="/data">
+              <div class="row">
+                <label class="col-sm-2 col-form-label" for="name">Name:</label>
+                <div class="col-sm-10">
+                  <input type="text" name="name" class="w-100" required/>
                 </div>
-            </div>
+              </div>
+              <div class="row">
+                <label class="col-sm-2 col-form-label" for="comment">Comment:</label>
+                <div class="col-sm-10">
+                  <textarea name="comment" class="w-100" required></textarea>
+                </div>
+              </div>
+              <input type="hidden" name="page" id="comments-reply-title" required/>
+              <button type="submit" class="btn btn-primary mt-2">Submit</button>
+            </form>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 <script src="/js/particles.min.js"></script>
 <script src="/js/marked.min.js"></script>
