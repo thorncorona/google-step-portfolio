@@ -6,9 +6,9 @@
       "file": "0_hello_world.md"
     },
     {
-        "order": 2,
-        "title": "About me",
-        "file": "1_about_me.md"
+      "order": 2,
+      "title": "About me",
+      "file": "1_about_me.md"
     },
     {
         "order": 3,
