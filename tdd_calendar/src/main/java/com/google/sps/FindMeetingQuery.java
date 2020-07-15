@@ -16,8 +16,6 @@ package com.google.sps;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -26,10 +24,24 @@ import java.util.stream.Collectors;
 public final class FindMeetingQuery {
 
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
+    Collection<String> inclOptAttendees = new HashSet<>(request.getAttendees());
+    inclOptAttendees.addAll(request.getOptionalAttendees());
+
+    Collection<TimeRange> allAttendeesSchedule = queryAttendees(events, inclOptAttendees,
+        request.getDuration());
+    if (allAttendeesSchedule.size() > 0) {
+      return allAttendeesSchedule;
+    } else {
+      return queryAttendees(events, request.getAttendees(), request.getDuration());
+    }
+  }
+
+  public Collection<TimeRange> queryAttendees(Collection<Event> events,
+      Collection<String> attendees, long meetingDuration) {
     List<TimeRange> startRanges = events.stream()
         .filter(event -> {
           Set<String> requiredAttendees = new HashSet<>(event.getAttendees());
-          requiredAttendees.retainAll(request.getAttendees());
+          requiredAttendees.retainAll(attendees);
           return requiredAttendees.size() > 0;
         })
         .map(Event::getWhen)
@@ -72,7 +84,7 @@ public final class FindMeetingQuery {
     availableTimes.add(TimeRange.fromStartEnd(availabilityStart, TimeRange.END_OF_DAY, true));
 
     return availableTimes.stream()
-        .filter(timeRange -> timeRange.duration() >= request.getDuration())
+        .filter(timeRange -> timeRange.duration() >= meetingDuration)
         .collect(Collectors.toList());
   }
 }
